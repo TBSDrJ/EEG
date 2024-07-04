@@ -25,11 +25,9 @@ def get_data() -> np.ndarray:
     data = data[0]
     return data
 
-def plot_each_electrode_as_is(data: np.ndarray) -> None:
+def plot_all_electrodes(data: np.ndarray) -> None:
+    """Draws 1 subplot for each electrode in one graph."""
     t = np.arange(100)
-    # Re-organize data matrix so the 17 electrodes are outermost dimension
-    # Then iterating through data will generate 17 subplots
-    data = np.transpose(data, [1,0,2])
     fig, axs = plt.subplots(3,6,)
     for ax, elec_data in zip(axs.flat[:17], data):
         ax.plot(
@@ -40,7 +38,6 @@ def plot_each_electrode_as_is(data: np.ndarray) -> None:
         )
     plt.show()
 
-
 def main():
     # Gets only the EEG data for the first image:
     # shape = (4, 17, 100)
@@ -48,7 +45,10 @@ def main():
     #   dim 1 = Electrode 
     #   dim 2 = Time steps, 100 readings
     data = get_data()
-    plot_each_electrode_as_is(data)
+    # Re-organize data matrix so the 17 electrodes are outermost dimension
+    # Then iterating through data will generate 17 subplots
+    data = np.transpose(data, [1,0,2])
+    plot_all_electrodes(data)
 
 if __name__ == "__main__":
     main()
