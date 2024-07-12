@@ -11,7 +11,7 @@ def get_data() -> np.ndarray:
         readings.  Each image is seen 4 times, readings from 17 electrodes,
         at 100 time steps.
     """
-    path = 'osfstorage-archive/sub-10/'
+    path = 'thingseeg2_preproc/sub-10/'
     filename = path + 'preprocessed_eeg_training.npy'
     with open(filename, 'rb') as fin:
         data = np.lib.format.read_array(
@@ -20,7 +20,7 @@ def get_data() -> np.ndarray:
         )
     # Extract the dictionary from the 0-dim ndarray
     data = data.item()
-    print(data['ch_names'])
+    print(data['times'])
     data = data['preprocessed_eeg_data']
     # Just restrict to the first image for now.
     data = data[1]
@@ -86,10 +86,10 @@ def main():
     # Then iterating through data will generate 17 subplots
     data = np.transpose(data, [1,0,2])
     # plot_all_electrodes(data, "as_is.png")
-    plot_all_electrodes(data)
+    # plot_all_electrodes(data)
     data = align_peaks(data)
     # plot_all_electrodes(data, "shifted.png")
-    plot_all_electrodes(data)
+    # plot_all_electrodes(data)
 
 if __name__ == "__main__":
     main()
